@@ -42,7 +42,7 @@ To build your own docker image use `docker build -t <docker_image_name> .`.
 
 You can run docker image by `docker run -p 8000 <docker_image_name>`
 
-If you want also set up other envitonment variables as *DATABASE_ENGINE* or *DJANGO_DEBUG* you can set it also at run command by `--env-file` to set all wariables at one or separately `-e VAR=VALE`. Example env file for local development is [.env.dev](.env.dev) 
+If you want also set up other envitonment variables as **DATABASE_ENGINE** or **DJANGO_DEBUG** you can set it also at run command by `--env-file` to set all wariables at one or separately `-e VAR=VALE`. Example env file for local development is [.env.dev](.env.dev) 
 
 
 ## Development
@@ -63,5 +63,7 @@ docker-compose exec web python manage.py createsuperuser
 docker-compose down
 ```
 
-> If you want to destroy database or you changed database setting as user, pasword or name you need to delete `docker volume`
-> `docker volume rm simpleapp_postgres_data`
+> If you want to destroy database or you changed database setting as user, pasword or name you need to delete **docker volume**
+> ```
+> docker volume rm simpleapp_postgres_data
+> ```
