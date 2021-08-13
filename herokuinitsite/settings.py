@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+import os
 import django_heroku
 
 from pathlib import Path
@@ -22,12 +23,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-21tn#_&adifj$m)bsv^r0q!h6w4c80u==1hz_gq7w1s0l2at9o'
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DJANGO_DEBUG', False)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', '127.0.0.1').split(',')
 
 
 # Application definition
@@ -77,7 +78,12 @@ WSGI_APPLICATION = 'herokuinitsite.wsgi.application'
 
 DATABASES = {
     'default': {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        'ENGINE': 'django.db.backends.{}'.format(os.getenv('DATABASE_ENGINE', 'sqlite3')),
+        'NAME': os.getenv('DATABASE_NAME', 'db.sqlite3'),
+        'USER': os.getenv('DATABASE_USERNAME', 'admin'),
+        'PASSWORD': os.getenv('DATABASE_PASSWORD', 'admin'),
+        'HOST': os.getenv('DATABASE_HOST', '127.0.0.1'),
+        'PORT': os.getenv('DATABASE_PORT', 5432),
     }
 }
 
