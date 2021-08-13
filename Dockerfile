@@ -1,11 +1,14 @@
 FROM python:3.9.6-alpine3.14
 
-# set work directory
-WORKDIR /usr/src/app
+# non production secret key
+ENV DJANGO_SECRET_KEY='django-insecure-21tn#_&adifj)bsv^r0q!h6w4c80u==1hz_gq7w1s0l2at9o'
 
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
+
+# set working directory
+WORKDIR /usr/src/app
 
 # copy application content
 COPY . .
@@ -17,4 +20,5 @@ RUN apk add --no-cache postgresql-libs && \
     python3 -m pip install -r requirements.txt --no-cache-dir && \
     apk --purge del .build-deps
 
-CMD ["gunicorn", "-b", ":8000", "--workers", "3", "herokuinitsite.wsgi", "--access-logfile", "-", "--error-logfile", "-"]
+# run application webserver
+CMD ["gunicorn", "-b", ":8000", "--workers", "3", "simpleapp.wsgi", "--access-logfile", "-", "--error-logfile", "-"]
